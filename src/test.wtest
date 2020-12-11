@@ -1,0 +1,30 @@
+import mensajes.*
+import chats.*
+import usuarios.*
+import notificaciones.*
+
+describe "Tests del parcial"{
+	
+	var leo = new Usuario(espacio = 100)
+	var ale = new Usuario(espacio = 5000)
+	var mensaje1 = new Texto(usuarioEmisor = leo, textoAEnviar = "aaaaabbbbb")
+	var mensaje2 = new Texto(usuarioEmisor = ale, textoAEnviar = "el rojo pierde")
+	var chat1 = new Chat(participantes = #{leo})
+		
+	test "Test de consulta" {
+		assert.equals(mensaje1.pesoTotal(), 18)
+	}
+	
+	test "Test de efecto" {
+		leo.enviar(mensaje1,chat1)
+		assert.equals(leo.espacio() , 82)
+	}
+	
+	test "Test de error" {
+		assert.throwsExceptionWithMessage(
+			"No se puede enviar el mensaje al chat",
+			{ ale.enviar(mensaje2,chat1) }
+		)
+	}	
+}
+
